@@ -40,7 +40,7 @@ fig_1a <- ggplot(data = data.frame(x = M, y = B_1)) +
        subtitle = substitute("At fixed temperature (= " * italic(Y) * ")")) +
   geom_segment(mapping = aes(x = 4e2, xend = 6e2, y = 500, yend = 660),
                arrow = arrow(angle = 40, length = unit(0.15, "cm")),
-               size = 0.2) +
+               linewidth = 0.2) +
   annotate(geom = "text", x = 470, y = 625, hjust = 0, vjust = 0, size = 4.5,
            label = deparse(substitute(italic("M")^alpha)), parse = TRUE) +
   scale_y_continuous(
@@ -68,7 +68,7 @@ fig_1b <- ggplot(data = data.frame(x = T, y = B_2)) +
       xend = max(T[B_2 >= 5 & B_2 <= 7 & T < T_opt]),
       y = min(B_2[B_2 >= 5 & B_2 <= 7 & T < T_opt] + 0.8),
       yend = max(B_2[B_2 >= 5 & B_2 <= 7 & T < T_opt] + 0.8)
-    ), arrow = arrow(angle = 40, length = unit(0.15, "cm")), size = 0.2
+    ), arrow = arrow(angle = 40, length = unit(0.15, "cm")), linewidth = 0.2
   ) +
   annotate(geom = "text", x = 295, y = 7.6, hjust = 0.5, vjust = 0.5,
            size = 4.5,
@@ -79,7 +79,7 @@ fig_1b <- ggplot(data = data.frame(x = T, y = B_2)) +
       xend = max(T[B_2 >= 5 & B_2 <= 7.3 & T > T_opt]),
       y = max(B_2[B_2 >= 5 & B_2 <= 7.3 & T > T_opt] + 0.8),
       yend = min(B_2[B_2 >= 5 & B_2 <= 7.3 & T > T_opt] + 0.8)
-    ), arrow = arrow(angle = 40, length = unit(0.15, "cm")), size = 0.2
+    ), arrow = arrow(angle = 40, length = unit(0.15, "cm")), linewidth = 0.2
   ) +
   annotate(geom = "text", x = 309, y = 7.5, hjust = 0.5, vjust = 0.5,
            size = 4.5,
