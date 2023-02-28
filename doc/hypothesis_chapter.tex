@@ -1,0 +1,184 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{natbib}
+\setlength{\bibsep}{0.0pt}
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+\usepackage{algorithmic}
+\usepackage{algorithm}
+\usepackage{mathtools}
+\usepackage[a4paper, total={7in, 10in}]{geometry}
+\usepackage{wrapfig}
+
+
+\renewcommand{\refname}{{\large REFERENCES}}
+
+\setlength\parindent{0pt}
+\setlength\parskip{5pt}
+
+\DeclareRobustCommand{\bbone}{\text{\usefont{U}{bbold}{m}{n}1}}
+
+\DeclareMathOperator{\EX}{\mathbb{E}}
+
+\newenvironment{my_enumerate}{
+\begin{enumerate}[G1,leftmargin=0.5cm]
+  \setlength{\itemsep}{1pt}
+  \setlength{\parskip}{0pt}
+  \setlength{\parsep}{0pt}}{\end{enumerate}
+}
+
+\newenvironment{my_itemize}{
+\begin{itemize}[leftmargin=0.5cm]
+  \setlength{\itemsep}{4pt}
+  \setlength{\parskip}{0pt}
+  \setlength{\parsep}{0pt}}{\end{itemize}
+}
+
+
+\usepackage{enumitem}
+\usepackage[font=small,skip=0pt]{caption}
+\usepackage{geometry}
+%\geometry{left=0.915cm,top=0.915cm,right=1.27cm,bottom=1.27cm}
+\usepackage{nopageno}
+\setlength{\intextsep}{-2ex}
+
+\setlength{\belowcaptionskip}{-10pt}
+\usepackage{caption}
+
+\title{Hypothesis testing in Metabolic Scaling}
+\author{Diego R Barneche, Holly V Moeller, Joey R Bernhardt}
+
+\begin{document}
+\maketitle
+
+\section{Introduction}
+
+Arguably, one of the great intellectual contributions of the Metabolic Theory of Ecology (MTE) was the direct manipulation of its master equation to generate empirical hypothesis tests. For example, consider the master equation
+
+\begin{equation}
+  B = b_0(T_c) M^\alpha f(T),
+  \label{eq1}
+\end{equation}
+
+where $B$ is organismal metabolic rate, $b_0(T_c)$ is the normalization constant at a standardised absolute temperature, $T_c$ (K), $M$ is body mass and $\alpha$ is the dimensionless size scaling exponent. The function $f(T) = A(T)/S(T)$ sets the temperature dependence of $B$, whereby 
+
+\begin{equation}
+    A(T) = e^{\frac{E_a}{k}\left(\frac{1}{T_c} - \frac{1}{T}\right)}
+    \label{eqAB}
+\end{equation} 
+
+is the Boltzmann-Arrhenius relationship \cite{gillooly2001science}, $T$ is absolute temperature (K), $E_a$ (eV) is an activation energy, $k$ is the Boltzmann constant ($8.62 \times 10^{-5}$ K / eV), and
+
+\begin{equation}
+    S(T) = 1 + \left(\frac{E_a}{E_i - E_a}\right) e^{\frac{E_i}{k}\left(\frac{1}{T_{opt}} - \frac{1}{T}\right)}
+    \label{eqSS}
+\end{equation} 
+
+is a modified Schoolfield-Sharpe equation \cite{schoolfield1981, barneche2014ele}, $E_i$ (eV) is a phenomenologically-defined inactivation energy, and $T_{opt}$ (K) is the optimum temperature, i.e., the temperature at which $B$ is maximum (Figure \ref{fig1}).
+
+Earlier MTE studies often considered a simplified $f(T) = A(T)$ by assuming that organisms should primarily inhabit environments below $T_{opt}$. Based on such formulation, empirical evidence across multiple species suggested an average activation energy $E_a$ = 0.65 eV \cite{gillooly2001science, brown2004ecology}, allowing one to calculate a ``temperature-corrected'' metabolic rate, $Y = B / A(T)$ (Figure \ref{fig1}, left). In this formulation, body mass is the sole predictor, and a linear equation can be obtained by transforming the equation to the natural logarithmic scale:
+
+\begin{equation}
+  \textrm{ln}Y = \textrm{ln}b_0(T_c) + \alpha \textrm{ln}M.
+  \label{eq3}
+\end{equation}
+
+From the point of view of a statistical linear regression, $\textrm{ln}Y \sim \textrm{ln}M$, $\textrm{ln}b_0(T_c)$ and $\alpha$ would be equivalent to the intercept and slope, respectively. $B$ can also be corrected by body mass instead, such that the sole predictor of the response would be temperature (Figure \ref{fig1}, right) \cite{brown2004ecology, savage2004amnat}:
+
+\begin{equation}
+  \textrm{ln}Z = \textrm{ln}b_0(T_c) + \frac{E_a}{k}\left(\frac{1}{T_c} - \frac{1}{T}\right),
+  \label{eq4}
+\end{equation}
+
+where $Z = B / M^\alpha$. By translating the original mathematical equations into statistical models, one can explicitly test for parameter values such as $\alpha$ = 0.75 (equation \ref{eq3}) or 0.6 eV $< E_a <$ 0.7 eV (equation \ref{eq4}) \cite{west1997science, gillooly2001science, brown2004ecology}. That said, over the years the usage of canonical values for both $\alpha$ and $E_a$ have been called into question because these have been shown to vary substantially among organisms and other factors \cite{makarieva2005functecol, glazier2005biolrev, moses2008amnat, glazier2010biolrev, pawar2015amnat, barton2019limn, white2003pnas, white2005jeb, delong2010pnas}. Surprisingly, however, the normalisation constant $b_0(T_c)$ has been treated as highly variable since earlier work \cite{brown2004ecology}. Therefore, one can take an agnostic approach by i) not assuming any particular value of either scaling parameter (i.e., $\alpha$ and $E_a$), and ii) jointly estimating both in a multiple regression framework (i.e., using equations \ref{eq1}--\ref{eqSS}; \cite{barneche2014ele}). Here we focus on some of the approaches that have been used to conduct hypothesis testing arising from MTE models, with a focus on the usage of Bayesian statistics. In doing so, we also provide general pointers for those who are planning to conduct experiments targeted at testing particular values of metabolic scaling parameters.
+
+\bigskip
+\bigskip
+
+\begin{figure}[h!]
+  \begin{center}
+    \includegraphics[width=1\textwidth]{../output/figure_1.pdf}
+  \end{center}
+  \caption{Theoretical curves illustrating the master equation of metabolic rates as defined in equation \ref{eq1}. Left: Temperature-corrected metabolic rates (see equation \ref{eq3}). Right: Mass-corrected metabolic rates (see equation \ref{eq4}). Figure code available on GitHub: \url{https://github.com/dbarneche/hts}.}
+  \label{fig1}
+\end{figure}
+
+\bigskip
+\bigskip
+
+\section{To linearize or not to linearize? Choosing transformations and distributions}
+\label{distributions}
+
+Many physiological rates such as growth or reproductive rates can encompass multiple orders of magnitude, and on the logarithmic scale they can be continuous and boundless. Therefore, their empirical distributions can be well characterized by either a Gaussian or a Student-t distribution. These statistical distributions will by default assume constant variance around the mean, and therefore the error distribution on the original data scale should ideally be heteroscedastic multiplicative (see, e.g., \cite{xiao2011ecology}; Figure \ref{fig2}). An alternative but less frequently adopted possibility would be to model the data directly on its natural scale by fitting a non-linear model. The nature of the data and its error are again key. For instance, a response variable that is positive continuous (i.e., does not include 0) and whose error is heteroscedastic multiplicative could in principle be modelled using a Gamma distribution with an identity link. Nowadays, multiple statistical packages make it relatively easy for novice users to fit both linear and non-linear models in \texttt{R} \cite{Rcitation} (e.g., \texttt{lme4} \cite{lme4}, \texttt{nlme} \cite{nlme}, \texttt{glmmTMB} \cite{glmmTMB}, \texttt{brms} \cite{brms}), and combined these offer great flexibility in terms of choosing an appropriate error distribution. For an overview on statistical distributions belonging to the exponential family, please see \cite{zuur2009book}.
+
+\bigskip
+\bigskip
+
+\begin{figure}[h!]
+  \begin{center}
+    \includegraphics[width=1\textwidth]{../output/figure_2.pdf}
+  \end{center}
+  \caption{Hypothetical data illustrating a canonical case of metabolic rates as a function of individual body mass. Left: data plotted on natural scale, overlaid with posterior predictions obtained from a Bayesian non-linear model using a Gamma distribution. Right: same data plotted on the natural logarithmic scale, overlaid with posterior predictions obtained from a Bayesian linear model using a Gaussian distribution. Top: original parameters used to simulate the data following equation \ref{eq3}. Inset estimates represent the mean fits for each parameter as well as their Bayesian 95\% credible intervals (95\% C.I.). Grey polygons represent Bayesian predictions across 4,000 posterior draws, and dashed red lines represent the mean predictions. Figure and analysis code available on GitHub: \url{https://github.com/dbarneche/hts}.}
+  \label{fig2}
+\end{figure}
+
+\bigskip
+\bigskip
+
+\section{Bayesian framework in metabolic scaling hypothesis testing}
+\label{bayesian}
+
+How do we actually test a hypothesis in metabolic scaling? How can we ascertain whether a parameter is, for example, 3/4 and not 2/3 or something else entirely? Different statistical philosophies will provide different approaches, and here we avoid discussing hypothesis testing from a frequentist inference approach because there have been many debates and critiques over the decades about the misuse and misinterpretation of \emph{p}-values (for recent discussions please see \cite{wasserstein2016amstat, benjamin2017nathumbeh, amrhein2019nat, muff2022tree, lakens2022tree, muff2022responsetree}). Instead, in Bayesian inference \cite{kruschke2010tree}, given a prior belief, the posterior distribution provides a direct credibility assessment of a model or its parameters, which is often the implicit goal of statistical inference.
+
+Credibility assessments are quite flexible and can be done for one or more parameters simultaneously, and over different ranges of values. For example, by fitting data to equation \ref{eq3} in a Bayesian framework, one can use the posterior distribution of $\alpha$ to assess whether $\alpha = 0.75 \pm 0.025$, or the probability of $0.5 < \alpha < 1$. Such credibility assessments are done in terms of exceedance probabilities, i.e., the proportion of the posterior distribution the falls within an expected parameter range. Similarly, credibility assessments can be made for joint parameter estimates because the covariance between parameters is an emergent property of most Bayesian modelling algorithms \cite{kruschke2010tree}. So, for example, in an long-term metabolic evolution experiment, one could test whether there are trade-offs (observable covariance) between $b_0$ and $E_a$ or $T_{opt}$ (i.e., the temperature at which metabolic rate is at its maximum; \cite{schoolfield1981, pawar2015amnat, barton2020ele}). Regardless of the number of parameters or their expected range (hypothesis), credibility assessments can also be done via hard-and-fast, Null Hypothesis Significance Testing (NHST)-inspired rules based on credibility intervals (e.g., does the 95\% highest density interval of $\alpha$'s posterior distribution include 0.75? \cite{barneche2014ele, barneche2018ele}) or even Regions of Practical Equivalence (ROPE) based on theory \cite{kruscke2018psybullrev, nunes2021functecol} to avoid comparing a posterior distribution against a single point estimate (however, please note that the ROPE concept has been recently called into question \cite{schwaferts2020report}).
+
+In addition to credibility assessments based on a single model's parameter posterior distribution, Bayesian inference allows for the calculation of evidence ratios between two competing models or parameter values via Bayes factors. This is in fact an extremely useful, albeit to the best of our knowledge, underutilized technique which might have directly contributed early on to debates surrounding the universality of metabolic scaling parameters (e.g., is $\alpha$ = 3/4 or 2/3; \cite{west1999science, glazier2005biolrev, moses2008amnat}). Though it has long been known that organismal metabolic rate scales non-linearly with body size, the value of the scaling exponent has been debated over the last century. Early work by Max Rubner in the 1880s found that mammalian basal metabolic rate scaled with body size with a scaling exponent of $\alpha$ = 2/3, corresponding to the dissipation of heat from the body surface and 2/3 power geometric scaling of body surface area with volume or mass \cite{rubner1883zeibiol}. Subsequent allometric studies, including those by Max Kleiber \cite{kleiber1932hilgardia}, found higher values of the scaling exponents, closer to 3/4. The observation that organismal metabolic rate scales with 3/4 power  is now known as ``Kleiber's Law''. Subsequent whole-system models \cite{west1997science, west1999science} also predict allometric scaling exponents of 3/4. Recent studies have found different scaling exponents among different taxonomic, phylogenetic and functional groups, suggesting that there might not be a single canonical or universal scaling exponent \cite{white2003pnas, white2005jeb, delong2010pnas}. Bayesian inference allows researchers to evaluate alternative hypotheses for the value of the scaling parameter. Consider for instance two empirical fittings of equation \ref{eq1}, a null fitting ($M_1$) in which the prior belief of the mass scaling parameter is $\alpha \sim \mathcal{N}(0.67, 0.01)$, and an alternative ($M_2$) in which $\alpha \sim \mathcal{N}(0.75, 0.01)$ (the priors for all other parameters are held constant across both models). The Bayes factor of $M_1$ versus $M_2$, $F$, is defined as the ratio between the posterior odds, $p(M_1 | D)/p(M_2 | D)$, and the prior odds, $p(M_1)/p(M_2)$:
+
+\begin{equation}
+\begin{split}
+  F = \frac{p(M_1 | D)}{p(M_2 | D)} / \frac{p(M_1)}{p(M_2)} \\
+  \frac{p(M_1 | D)}{p(M_2 | D)} = F \frac{p(M_1)}{p(M_2)},
+  \label{eq5}
+\end{split}
+\end{equation}
+
+where $D$ is the observed data, $p(M_\ast | D)$ is the posterior probability of model $M_\ast$ given $D$, and $p(M_\ast)$ is the prior probability of $M_\ast$. Equation \ref{eq5} allows one to calculate the strength of evidence between $M_1$ and $M_2$ \cite{benjamin2017nathumbeh, kruscke2018psybullrev, lakens2022tree}. Here we apply this concept to the data from Figure \ref{fig2} --- the code for analysis and plots is available on GitHub (\url{https://github.com/dbarneche/hts}). For the sake of this example, we assume that there is no knowledge about the prior probability of each model, i.e., they both have a 0.5 probability of being the best model and therefore $p(M_1)/p(M_2) = 1$ (Figure \ref{fig3})---however, please note that different prior probabilities could have been assigned via, for example, a meta-analysis to determine which parameter value has had the strongest precedence. According to equation \ref{eq5}, in such case where $p(M_1)/p(M_2) = 1$, the posterior odds are equivalent to the Bayes factor, and in this example data, $F = 8.1 \times 10^{12}$ in favour of model $M_2$.
+
+\bigskip
+\bigskip
+
+\begin{figure}[h!]
+  \begin{center}
+    \includegraphics[width=1\textwidth]{../output/figure_3.pdf}
+  \end{center}
+  \caption{Model selection using Bayes factors as a way to disentangle theoretically predicted mass scaling exponent values. Competing models (red, $M_1$; blue, $M_2$) differ only in their prior for the mass scaling exponent, as explained in the text. Top-left plot shows the equal prior model probabilities, and top-right plot shows the posterior model probabilities after fitting data from Figure \ref{fig2}, which was simulated assuming a mean $\alpha = 0.75$. Together these top plots provide strong evidence in favor of model $M_2$. Bottom plots show both the prior (left) and posterior (right) distributions of $\alpha$, and demonstrate that even model $M_1$ is more likely to yield a scaling mass exponent that is close to $\alpha = 0.75$ in this hypothetical example data. Figure and analysis code available on GitHub: \url{https://github.com/dbarneche/hts}.}
+  \label{fig3}
+\end{figure}
+
+\bigskip
+\bigskip
+
+\section{Multilevel models to reconcile generality and idiosyncrasies in scaling}
+
+A major contention throughout the history of MTE has been the applicability of parameter estimates obtained from macro-ecological meta-analyses versus estimates obtained at the intra-specific level \cite{brody1945book, peters1983book, agutter2004theor, glazier2005biolrev, moses2008amnat, hirst2014ele, barneche2015pnas}. Most of these critiques arose from the fact that two foundational models in MTE, namely the West-Brown-Enquist fractal scaling model \cite{west1997science} and the Ontogenetic Growth model \cite{west2001nature}, were derived from the perspective of individual organisms despite the fact that most of their empirical tests relied on data pooled across species of different body sizes (e.g., \cite{brown2004ecology, savage2004amnat}). 
+
+Theoretical debates aside, this problem illustrates a classical issue of within- versus between-group effects in statistics that can be solved with multilevel modelling. In the context of metabolic scaling, multilevel models (a.k.a. hierarchical, random effects or mixed effect models) can aid in assessing the consistency of scaling phenomena within and across taxa (e.g., \cite{glazier2005biolrev, isaac2010ele, hirst2014ele, barneche2015pnas}) by partitioning the variance into general trends, represented by `fixed' or `population-level` variables, and individual- or taxon-specific idiosyncrasies, represented by `random' or `group-level' variables \cite{vandepol2009animbehav, allgeier2015pnas, padfield2016ecollett, barneche2019functecol, garzke2019plosbiol, barton2020ele}. A good visual example of such partitioning can be found in Figure 1 from \cite{vandepol2009animbehav}. Assuming that appropriate data exists such that a nested structure can be obtained in the data (e.g., multiple measurements of individuals throughout ontogeny, multiple individuals within species, and/or multiple individuals across species), overall metabolic parameters are then allowed to vary following `hyper-parameters' (e.g., the inter-individual standard deviation of $\alpha$), and one can establish the magnitude of discrepancy between the overall or fixed parameter location (e.g., mean) and the group-level representatives (e.g., individuals or species).
+
+While the variance captured by group-level variables does not by itself identify particular driving mechanisms of difference, it does highlight areas for future investigation. Alternatively, this group-level structure can be further extended into a proper ``animal'' pedigree to evaluate genetic variation in scaling parameters among individuals of the same species \cite{careau2015procb}, or even a full phylogenetic tree which evaluates the rate of parameter evolution across species---please note, however, that parameter diversification dynamics remains an actively debated and unresolved issue \cite{louca2020nature}. That said, the major limitation to achieving parameter estimates with high resolution at multiple levels of biological organization is data quality. However, the recent rise in high-throughput methods to evaluate physiological rates has made large-scale ecophysiology and evolution studies possible \cite{padfield2016ecollett, barneche2019functecol, malerba2018newphy, garzke2019plosbiol, barton2020ele}, and we now turn our attention to experimental designs in the metabolic scaling space.
+
+\section{General advice for experimental design}
+
+The extensive development of the Metabolic Theory of Ecology means that researchers can consult existing mathematical frameworks prior to designing experiments. These models can be used to generate estimates of parameter values from first principles; experiments can then be designed to test these hypotheses. For example, given a fixed amount of resources, MTE predicts that a population carrying capacity should decrease with temperature because of increased per-capita metabolic demands \citep{brown2004ecology, savage2004amnat, barneche2016procb}---and consequent depletion of resources---at hotter temperatures. An actual rate of decline can be predicted given individual-level parameter values (see e.g., \cite{savage2004amnat}) and this hypothesis can be tested with experiments that measure maximal population size as a function of temperature (e.g., \cite{bernhardt2018amnat, bernhardt2018procb}). Ideally, one should pre-register their experimental question and specific hypothesis, including parameter values \citep{odea2021bmcbiol}.
+
+Statistical principles should be used to determine sample size and the appropriate unit of replication. Datasets must be sufficiently large to have the ``power'' to detect differences between treatment groups, or to allow for the estimation of particular parameter values and associated uncertainty (\textbf{REFS NEEDED}). Because MTE can provide estimates of parameter values, researchers can use this hypothetical effect size, together with best-practice goals for statistical power (the likelihood of detecting an effect of this size) and significance (the risk of rejecting the null hypothesis) to determine the necessary sample size (number of observations needed). Relative to frequentist approaches to estimating power, Bayesian power analysis is still in its infancy, and is primarily based on simulations (see, e.g., \cite{schonbrodt2018psybullrev, kruscke2018psybullrev, fisher2019mee}). That said, any multilevel model, regardless of the statistical philosophy, will likely require a customized simulation routine for the purposes of estimating power \cite{scherbaum2009orgresmet}. And, in fact, depending upon the complexity of the experimental design, a power analysis like the one described above may proscribe a prohibitively large number of samples. When space, researcher funds or time, or -other factors are limiting, researchers can consider multilevel designs (increasing effort at the hierarchical levels) to increase the power of their experiments \cite{scherbaum2009orgresmet}. Unfortunately this does not, in any way, dampen the learning curve, particularly for training early career ecologists. The good news is that many online tutorials and relatively-easy-to-use packages are now available to help researchers overcome such barrier.
+
+As a last piece of advice, we recommend caution when using statistical interactions. Although some of us have been guilty of this issue in the past, statistical interactions have been heavily abused in the ecological literature (\textbf{REFS NEEDED}). What many researchers do not realize, however, is that statistical tests for interactions are data hungry, and are often evaluated by under-powered studies. This is a problem that can lead to highly skewed effect sizes and error estimates, including of the wrong magnitude and sign \cite{gelman2014perspsysci}. In metabolic scaling, for example, there is a reignited debate about whether $\alpha$ itself is temperature dependent \cite{glazier2020jcompphysiolb}. Although this is an extremely interesting academic question with potential implications to how we estimate carbon fluxes under climate change, caution must be exercised to make sure that the estimates of statistical interactions (e.g., between $\alpha$ and temperature) are not mere artifacts of under-powered datasets / analyses.
+
+\section{Concluding remarks}
+Empirical tests of the Metabolic Theory of Ecology allow us to strengthen our understanding of the theory and its tenets. As additional statistical frameworks, including Bayesian approaches, become commonplace, ecologists have a growing number of tools to approach experimental design and hypothesis testing. As is becoming widely accepted best-practice in the field, we urge researchers to consider their analysis plan prior to beginning experimental work. Customized simulations can be used to identify the sample size necessary to achieve robust statistical power. Special care should be taken when designing multi-level experiments to ensure that there is sufficient power for detecting interactions.
+
+\bibliographystyle{apalike}
+\bibliography{refs}
+
+\end{document}
