@@ -3,3 +3,6 @@
 !README.md
 !.gitignore
 !figs.R
+!doc/hypothesis_chapter.tex
+!doc/render.R
+!doc/refs.bib
