@@ -1,0 +1,55 @@
+Review:
+
+This is a fantastic paper! It is an excellent contribution to the book and an excellent analysis of statistical issues that have dogged the metabolic ecology field for many years. It's a sign of the maturity of the field to have a chapter that addresses a long-standing debate with new (new to this field anyway) statistical approaches in a clear and accessible way.
+
+The introduction lays out the complex issues quite clearly. There have been long-standing debates about the values of the slopes and intercepts relating metabolic rate, temperature, and body mass. The authors describe Bayesian approaches to resolving these debates. 
+
+The figures are illustrative and clear with informative legends. It's referenced appropriately and thoroughly, and the code to create figures is linked to github. It's a model contribution to the book. I am by no means an expert on Bayesian statistics, and I learned a lot and was convinced I should use these methods more often.
+
+R: We really appreciate Melanie's encouraging words. We are glad to learn that this might be a good fit for the book and that the language is adequate for a general audience. We have incorporated all but one comment, and we explain why below.
+
+Three suggestions:
+
+1. The paper jumps right into MTE equations that might be daunting for some readers. I suggest an intro paragraph describing the unresolved quantitative questions and why Bayesian approaches can help to answer those questions. The discussion of credibility estimates and calculating evidence ratios were really interesting and directly applicable.
+
+R: We have significantly expanded the Introduction by laying out how hypothesis testing is linked to MTE, giving examples of debates about testing for specific parameter values, and then briefly jumping into how Bayesian statistics can offer a fresh perspective on this issue.
+
+2. In the last section, the discussion of Bayesian power analysis was a bit less polished and less directly applicable. I found myself not sure what exactly was meant by "statistical interactions". The suggested method seemed not to be practical because there is never enough data to power it. I was left unsure of whether there really is a feasible Bayesian solution to disentangling the multilevel interactions that cloud estimates of slopes and intercepts. This is a key question, and it's OK if the answer is that the Bayesian approaches are not able to answer it with available data. I just wasn't sure what the takehome message was from this section.
+
+R: We have re-written this section entirely. We expanded on what we mean by statistical interactions, so it is clear to the reader what we are talking about. We also provide some key references that might help them better appreciate the pitfalls of statistical interactions in general. We also scraped entirely the text surrounding simulations for power analyses---this is hard to succinctly cover because it requires too much technical detail. Upon a second read and after reading Melanie's review, we agree that this was a bit out of place and lacked a good conclusion.
+
+I also wanted more explanation of this "reignited debate about whether α itself is temperature dependent Glazier(2020). Although this is an extremely interesting academic question with potential implications to how we estimate carbon fluxes under climate change, caution must be exercised.." Fleshing this out might be a good example to use to explain why ecologists should care about the details of parameter estimation because there are high stakes practical implications.
+
+R: We thought that it was probably too hard to expand this section without going into technical detail. It served merely as an example of what might be a statistical interaction in the MTE world, and hopefully now the rewritten text on interactions will help the reader appreciate that.
+
+3. This may be out of scope, and so it's not at all a requirement for a book chapter - but I would have loved to see an analysis of real data from one of the cited papers. Does this analysis actually discriminate between 3/4 2/3 or something else entirely? It would be great to have one real data example (with the caveat that there are many datasets to analyze with this approach).
+
+R: We loved this suggestion. We have changed the analysis using data from Barneche et al. 2019 in Functional Ecology, which actually favoured 2/3 scaling of intra-specific metabolic rates in zebrafish.
+
+Minor issue: top of page 4 alpha = 0.75 +/- 0.025 or should it be 0.25? 0.25 is what leads to a CI of 0.5 to 1.
+
+R: Good catch, done.
+
+Overall, joy to read. Publish more or less as is, with a bit of fine tuning of the last section.
+
+R: Again, thank you very much for the encouraging and constructive review.
+
+EDITORIAL COMMENTS:
+
+Please add a clear problem statement, and clarify the purpose of the chapter, for a reader. Why this chapter?  What is the thesis? Just make it easy for a reader to know the main contribution in a succinct statement. Would it be something like “a major critique of scaling is that it is not rigorous in terms of hypothesis testing…”?
+
+R: Done. The entire Introduction has been rewritten.
+
+Related to this request for a clear thesis / problem statement, the conclusions currently come across as a little weak. Can these be strengthened?
+
+R: Done. The entire conclusion paragraph has been rewritten to flash out what we think are the important contributions of our chapter.
+
+cite… 
+
+Kerkhoff, A. J., & Enquist, B. J. (2009). Multiplicative by Nature: Why Logarithmic Transformation Is Necessary in Allometry. Journal of Theoretical Biology, 257, 519-521.
+
+R: Done.
+
+section on multilevel models is good and important.  
+
+R: We're happy to learn that you found this section useful!
